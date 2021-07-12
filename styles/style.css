@@ -1,0 +1,26 @@
+h1{
+    text-align: center;
+}
+
+#board-wrapper{
+    margin: 0 auto;
+    display: grid;
+    width: 500px;
+    grid-template-columns: repeat(3,1fr)
+}
+.board-cell{
+    color: rgba(37, 143, 248,0.0);
+    width: 20vw;
+    height: 20vw;
+    border: 2px solid black;
+    font-size: 100px;
+    text-align: center;
+}
+
+.board-cell:hover{
+    background-color: grey;
+}
+.clicked{
+    color: rgb(37, 143, 248);
+    transition: color 0.5s ease-in-out;
+}

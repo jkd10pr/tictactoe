@@ -5,10 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="shortcut icon" href="#" />
 </head>
 <body>
-    Tic-Tac-Toe
+    <h1>Tic-Tac-Toe</h1>
+
+    <button id="start-button">Start</button>
+    <label for="signs">Choose your sign:</label>
+    <select id="signs" name="signs">
+      <option value="x">X</option>
+      <option value="o">O</option>
+    </select> 
+
+    <label for="ai-picker">Player 2:</label>
+    <select id="ai-picker" name="ai-picker">
+      <option value="0">Player</option>
+      <option value="1">AI</option>
+    </select> 
+
+    <div id='board-wrapper'>
+        <div class = 'board-cell' data-index=0></div>
+        <div class = 'board-cell' data-index=1></div>
+        <div class = 'board-cell' data-index=2></div>
+        <div class = 'board-cell' data-index=3></div>
+        <div class = 'board-cell' data-index=4></div>
+        <div class = 'board-cell' data-index=5></div>
+        <div class = 'board-cell' data-index=6></div>
+        <div class = 'board-cell' data-index=7></div>
+        <div class = 'board-cell' data-index=8></div>
+    </div>
 </body>
 <script src="scripts/main.js"></script>
 </html>

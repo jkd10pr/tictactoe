@@ -3,11 +3,6 @@ const Player = (sign, isAI) => {
     let _sign = sign;
     let prototype;
 
-    if (isAI) {
-        //inherit Computer methods
-    } else {
-        //inherit Human Methods
-    }
     const checkAI = () => {
         return _isAI;
     }
@@ -21,7 +16,7 @@ const Player = (sign, isAI) => {
         return _sign;
     }
 
-    const setSign = () => {
+    const setSign = (sign) => {
         _sign = sign;
     }
 
@@ -113,22 +108,34 @@ const gameBoard = (() => {
 const gameController = (() => {
     let _gameBoard = gameBoard;
     let _playerOne = Player('x',false);
-    let _playerTwo = Player('y',true);
+    let _playerTwo = Player('o',true);
+    let _currentPlayerIndex = 1;
 
-    const _makeMove = (player) => {
+    const changePlayer = () =>{
+        if(_currentPlayerIndex === 1) _currentPlayerIndex=2;
+        else _currentPlayerIndex = 1;
+    }
+
+    const isCurrentPlayerAI = ()=>{
+        if(_currentPlayerIndex===1) return _playerOne.checkAI();
+        else return _playerTwo.checkAI();
+    }
+
+    const _makeMove = (index,player) => {
 
         //choosing the move for human
         if (player.checkAI() === false) {
-            let i = prompt('Chose the index');
-            while (_gameBoard.updateBoard(i, player.getSign()) === false) {
-                i = prompt('You cant choose this! Chose the index again');
-            }
-            _gameBoard.displayBoard();
+            
+            //terminate the round if clicked cell is already taken
+            if(_gameBoard.updateBoard(index, player.getSign()) === false) return false;
+
+            return index;
         }
         //choosing the move for AI - will implement minmax Later
         else {
             i = _bestMoveAI();
             _gameBoard.updateBoard(i, player.getSign());
+            return i;
         }
     }
 
@@ -142,29 +149,63 @@ const gameController = (() => {
         return pickedMove;
     }
 
-    const _playRound = (player) => {
-        let playerSign = player.getSign();
-        _makeMove(player);
-        _gameBoard.displayBoard();
-        return _gameBoard.checkIfWon(playerSign);
+    const playRoundPlayer = (index) => {
+        let roundPlayer;
+        let cellToChange;
+        let sign;
+        let isWon=false;
+
+        if(_currentPlayerIndex === 1) roundPlayer = _playerOne;
+        else roundPlayer = _playerTwo;
+
+        cellToChange = _makeMove(index,roundPlayer);
+        if (cellToChange===false) return false;
+        sign = roundPlayer.getSign();
+        isWon=_gameBoard.checkIfWon(sign);
+        changePlayer();
+        return [cellToChange,sign,isWon];
+
+        // let playerSign = player.getSign();
+        // _makeMove(player);
+        // _gameBoard.displayBoard();
+        // if()
+        // return index;
+
+    }
+
+    const playRoundAI = () => {
+        let roundPlayer;
+        let cellToChange;
+        let sign;
+        let isWon=false;
+
+        if(_currentPlayerIndex === 1) roundPlayer = _playerOne;
+        else roundPlayer = _playerTwo;
+
+        cellToChange = _makeMove(-1,roundPlayer);
+        sign = roundPlayer.getSign();
+        isWon=_gameBoard.checkIfWon(sign);
+        changePlayer();
+        return [cellToChange,sign,isWon];
+
     }
 
     const playGame = () => {
-        result = '';
-        while (result === '' || _gameBoard.getEmptyFields().length === 0) {
-            if (_playRound(_playerOne)) {
-                result = '1';
-                break;
-            }
-            if (_gameBoard.getEmptyFields().length === 0) break;
-            if (_playRound(_playerTwo)) {
-                result = '2';
-                break;
-            }
-        }
-        if (result === '') result = 'tie';
-        console.log(`Player ${result} wins!`)
-        _gameBoard.clearBoard();
+        // result = '';
+        // if(result !== '' || _gameBoard.getEmptyFields().length !== 0) {
+        //     if (_playRound(_playerOne)) {
+        //         result = '1';
+        //         break;
+        //     }
+        //     if (_gameBoard.getEmptyFields().length === 0) break;
+        //     if (_playRound(_playerTwo)) {
+        //         result = '2';
+        //         break;
+        //     }
+        // }
+        // if (result === '') result = 'tie';
+        // console.log(`Player ${result} wins!`)
+        // _gameBoard.clearBoard();
 
     }
 
@@ -198,13 +239,64 @@ const gameController = (() => {
     }
 
     return {
+        isCurrentPlayerAI,
+        playRoundPlayer,
+        playRoundAI,
         setPlayers,
         playGame,
     }
 })();
 
+
 const displayGameController = (()=>{
-    // let _gameController = gameController;
+    let _gameController = gameController;
+    let _boardCells = document.querySelectorAll('.board-cell');
+    let _startButton = document.querySelector('#start-button');
+
+    
+
+    const startGame = (e) =>{
+        //read the choices of sign and AI
+        initializeGame();
+    }
+
+    _startButton.addEventListener('click',startGame);
+
+    const processCell = (e)=>{
+
+        //process clicking a cell by user
+        let index = e.target.dataset.index;
+        let roundResult = _gameController.playRoundPlayer(index);
+        if(roundResult===false) return;
+        e.target.classList.add('clicked');
+        e.target.innerText=roundResult[1];
+        if(roundResult[2]===true) alert("Player WON");
+
+        //process 
+        if(_gameController.isCurrentPlayerAI()===true){
+            let roundResult = _gameController.playRoundAI();
+            let elementToChange = document.querySelector(`.board-cell[data-index="${roundResult[0]}"]`);
+            setTimeout(()=>elementToChange.classList.add('clicked'),500);
+            elementToChange.innerText=roundResult[1];
+            if(roundResult[2]===true) alert("PC WON");
+        }
+
+    }
+
+    const initializeGame = ()=>{
+        chosenSign = document.querySelector('#signs').value;
+        chosenAI = document.querySelector('#ai-picker').value;
+
+        _boardCells.forEach((element)=>{
+            element.addEventListener('click',processCell);
+        });
+
+        _gameController.setPlayers(chosenSign,Number(chosenAI));
+    }
+
+
+
+
 
     // gameController.playGame();
 })();
