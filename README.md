@@ -1,0 +1,1 @@
+A basic tic-tac-toe game written in vanilla JavaScript. Part of The Odin Project Curriculum.
