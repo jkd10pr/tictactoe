@@ -128,7 +128,6 @@ const gameController = (() => {
             
             //terminate the round if clicked cell is already taken
             if(_gameBoard.updateBoard(index, player.getSign()) === false) return false;
-
             return index;
         }
         //choosing the move for AI - will implement minmax Later
@@ -165,12 +164,6 @@ const gameController = (() => {
         changePlayer();
         return [cellToChange,sign,isWon];
 
-        // let playerSign = player.getSign();
-        // _makeMove(player);
-        // _gameBoard.displayBoard();
-        // if()
-        // return index;
-
     }
 
     const playRoundAI = () => {
@@ -179,33 +172,19 @@ const gameController = (() => {
         let sign;
         let isWon=false;
 
+        //pick player for the round
         if(_currentPlayerIndex === 1) roundPlayer = _playerOne;
         else roundPlayer = _playerTwo;
 
         cellToChange = _makeMove(-1,roundPlayer);
         sign = roundPlayer.getSign();
         isWon=_gameBoard.checkIfWon(sign);
+
+        //change player after the round
         changePlayer();
+
+        //pass the informations to use in DOM
         return [cellToChange,sign,isWon];
-
-    }
-
-    const playGame = () => {
-        // result = '';
-        // if(result !== '' || _gameBoard.getEmptyFields().length !== 0) {
-        //     if (_playRound(_playerOne)) {
-        //         result = '1';
-        //         break;
-        //     }
-        //     if (_gameBoard.getEmptyFields().length === 0) break;
-        //     if (_playRound(_playerTwo)) {
-        //         result = '2';
-        //         break;
-        //     }
-        // }
-        // if (result === '') result = 'tie';
-        // console.log(`Player ${result} wins!`)
-        // _gameBoard.clearBoard();
 
     }
 
@@ -236,6 +215,11 @@ const gameController = (() => {
                 _playerTwo.setAI(true);
                 break;
         }
+        _currentPlayerIndex = 1;
+    }
+
+    const resetGame = () =>{
+        _gameBoard.clearBoard();
     }
 
     return {
@@ -243,7 +227,7 @@ const gameController = (() => {
         playRoundPlayer,
         playRoundAI,
         setPlayers,
-        playGame,
+        resetGame,
     }
 })();
 
@@ -253,50 +237,127 @@ const displayGameController = (()=>{
     let _boardCells = document.querySelectorAll('.board-cell');
     let _startButton = document.querySelector('#start-button');
 
-    
+    let _p1signPicker = document.querySelector('#signs-1');
+    let _p2signPicker = document.querySelector('#signs-2');
+
+    let _p1AIPicker = document.querySelector('#ai-picker-player-1');
+    let _p2AIPicker = document.querySelector('#ai-picker-player-2');
+    let repeatInterval;
+
+    const changeAI = (e)=>{
+        let player = e.target.dataset.player;
+        let difficultyPicker=document.querySelector(`#ai-difficulty-picker-${player}`);
+        if(e.target.value==='0') {
+            difficultyPicker.classList.add('hidden');
+        } else {
+            difficultyPicker.classList.remove("hidden");
+            console.log(difficultyPicker.classList)
+        }
+    }
+
+    const changeSign = (e) =>{
+        let setOtherSign=e.target.value==='x'?'o':'x';
+        if(e.target.dataset.player==='1'){
+            _p2signPicker.value=setOtherSign;
+        } else {
+            _p1signPicker.value=setOtherSign;
+        }
+    }
+    _p1signPicker.addEventListener('change',changeSign);
+    _p2signPicker.addEventListener('change',changeSign);
+
+    _p1AIPicker.addEventListener('change', changeAI);
+    _p2AIPicker.addEventListener('change', changeAI);
 
     const startGame = (e) =>{
         //read the choices of sign and AI
         initializeGame();
     }
 
+    const restartGame = () =>{
+        _boardCells.forEach((element)=>{
+            element.classList.remove('clicked')
+            element.querySelector('.sign').innerText='';
+        })
+        _gameController.resetGame();
+    }
+
     _startButton.addEventListener('click',startGame);
 
-    const processCell = (e)=>{
-
+    const moveAI = ()=>{
+        let roundResult = _gameController.playRoundAI();
+        let elementToChange = document.querySelector(`.board-cell[data-index="${roundResult[0]}"]`);
+        elementToChange.classList.add('clicked');
+        elementToChange.querySelector('.sign').innerText=roundResult[1];
+        if(roundResult[2]===true){
+            clearInterval(repeatInterval);
+            alert("PC WON");
+            return true;
+            restartGame();
+        }
+    }
+    const move = (e) => {
         //process clicking a cell by user
         let index = e.target.dataset.index;
         let roundResult = _gameController.playRoundPlayer(index);
-        if(roundResult===false) return;
+        //clicked cell was already taken
+        if (roundResult === false) return;
         e.target.classList.add('clicked');
-        e.target.innerText=roundResult[1];
-        if(roundResult[2]===true) alert("Player WON");
-
-        //process 
-        if(_gameController.isCurrentPlayerAI()===true){
-            let roundResult = _gameController.playRoundAI();
-            let elementToChange = document.querySelector(`.board-cell[data-index="${roundResult[0]}"]`);
-            setTimeout(()=>elementToChange.classList.add('clicked'),500);
-            elementToChange.innerText=roundResult[1];
-            if(roundResult[2]===true) alert("PC WON");
+        e.target.querySelector(".sign").innerText = roundResult[1];
+        if (roundResult[2] === true) {
+            alert("Player WON");
+            restartGame();
+            return;
         }
-
+        if (_gameController.isCurrentPlayerAI() === true) {
+            moveAI();
+        }
     }
 
+    const simulateTwoAI = ()=>{
+        // let timeoutValue=2000;
+        // for(let i=1;i<=9;i++){
+        //     setTimeout(moveAI,timeoutValue);
+        //     timeoutValue+=2000;
+        // }
+        if(repeatInterval) clearInterval(repeatInterval);
+        repeatInterval = setInterval(()=>{moveAI()}, 2000);
+        // console.log('This RUN');
+
+        // setTimeout(moveAI,1000);
+        // setTimeout(moveAI,2000);
+        // setTimeout(moveAI,3000);
+        // setTimeout(moveAI,4000);
+        // setTimeout(moveAI,5000);
+        // setTimeout(moveAI,6000);
+        // setTimeout(moveAI,7000);
+        // setTimeout(moveAI,8000);
+        // setTimeout(moveAI,9000);
+        
+    }
+
+    
     const initializeGame = ()=>{
-        chosenSign = document.querySelector('#signs').value;
-        chosenAI = document.querySelector('#ai-picker').value;
+        let AICounter=0;
+        let p1Sign = _p1signPicker.value;
+    
+        if(_p1AIPicker.value==='1') AICounter++;
+        if(_p2AIPicker.value==='1') AICounter++;
 
-        _boardCells.forEach((element)=>{
-            element.addEventListener('click',processCell);
-        });
+        _gameController.setPlayers(p1Sign,Number(AICounter));
+        
+        if(AICounter===2) simulateTwoAI();
 
-        _gameController.setPlayers(chosenSign,Number(chosenAI));
+        // if(_p1AIPicker.value==='1') moveAI();
+
+        // _boardCells.forEach((element)=>{
+        //     element.addEventListener('click',move);
+        // });
     }
 
 
+    return{
+        initializeGame,
+    }
 
-
-
-    // gameController.playGame();
 })();
