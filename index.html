@@ -14,8 +14,12 @@
 </head>
 
 <body>
-  <h1>Tic-Tac-Toe</h1>
+  <h1><span class='red-sign'>Tic-</span>Tac<span class='blue-sign'>-Toe</span></h1>
 
+  <div id="buttons">
+    <button id="start-button" class="button">Play</button>
+    <button id="reset-button" class="button">Reset</button>
+  </div>
   <div id="main-wrapper">
     <div class='player-card red' id="player-info-1">
       <h2 class="player-title">Player 1</h2>
@@ -36,10 +40,10 @@
       </div>
 
       <div id=ai-difficulty-picker-1 class="picker  difficulty-picker hidden">
-        <label for="ai-difficilty-picker-player-1" >Player 1's AI:</label>
+        <label for="ai-difficilty-picker-player-1" >AI's Difficulty</label>
         <select id="ai-difficilty-picker-player-1" name="ai-difficilty-picker-player-1" data-player='1'>
-          <option value="0">easy</option>
-          <option value="1">medium</option>
+          <option value="1" selected>easy</option>
+          <option value="2">medium</option>
           <option value="2">hard</option>
         </select>
       </div>
@@ -64,17 +68,20 @@
       </div>
 
       <div id="ai-difficulty-picker-2" class="picker difficulty-picker" >
-        <label for="ai-difficilty-picker-player-2" >Player 1's AI:</label>
+        <label for="ai-difficilty-picker-player-2" >AI's Difficulty</label>
         <select id="ai-difficilty-picker-player-2" name="ai-difficilty-picker-player-2">
-          <option value="0">easy</option>
-          <option value="1">medium</option>
+          <option value="1" selected>easy</option>
+          <option value="2">medium</option>
           <option value="2">hard</option>
         </select>
       </div>
 
     </div>
-
-    <div id='board-wrapper'>
+    <div id="game-wrapper">
+    <div id="results-display" class="white">
+      Press play to start
+    </div>
+    <div id='board-wrapper' class="white">
       <div class='board-cell' data-index=0>
         <div class='sign'></div>
       </div>
@@ -103,10 +110,7 @@
         <div class='sign'></div>
       </div>
     </div>
-  </div>
-  <div id="buttons">
-    <button id="start-button" onclick="displayGameController.initializeGame()">Start</button>
-    <button id="reset-button">Start</button>
+    </div>
   </div>
 </body>
 <script src="scripts/main.js"></script>

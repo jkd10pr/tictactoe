@@ -3,10 +3,66 @@ html,body{
     font-family: 'Varela Round', sans-serif;
 }
 
+.white{
+    color:white;
+    border: 3px solid rgba(255, 255, 255, 0.258);
+    box-shadow: 0px 0px 0.3rem white, inset 0px 0px 0.3rem white;
+}
+
+.red{
+    color: #ff4848;
+    border: 3px solid #ffe0e0;
+    background-color: #ff9b9b32;
+    box-shadow: 0px 0px 0.5rem rgb(255, 58, 58), inset 0px 0px 0.5rem rgb(255, 58, 58);
+}
+
+.blue{
+    color: aqua;
+    border: 3px solid #c8ffff;
+    background-color: #c8ffff18;
+    box-shadow: 0px 0px 0.5rem aqua, inset 0px 0px 0.5rem aqua;
+}
+
+#buttons{
+    text-align: center;
+    margin: 0px auto 2vw auto;
+}
+
+#results-display{
+    color: white;
+    text-align: center;
+    margin-bottom: 1vw;
+    font-size: 2vw;
+    border-radius: 20px;
+    padding: 1vh;
+    width: 100%;
+    /* margin-top: 10px; */
+    /* margin-bottom: 20px; */
+    /* width: 100%; */
+}
+
+.button{
+    background-color: transparent;
+    color: white;
+    border-radius: 15px;
+    padding: 5px;
+    border: 2px solid ;
+    font-size: 3vh;
+    box-shadow: 0px 0px 5px white;
+}
+
+.button:active{
+    background-color: rgba(209, 209, 209, 0.333);
+    /* box-shadow: 0px 0px 15px white; */
+}
+
+
 h1{
     text-align: center;
-    color:#8AFFFF;
-    margin-bottom: 0px;
+    font-size:8vh;
+    color:#ffffff;
+    text-shadow: 0px 0px 5px white;
+    margin: 0px auto;
 }
 
 h2{
@@ -21,15 +77,18 @@ h2{
 }
 
 .hidden{
-    display: none;
+    /* display: none; */
+
+    visibility: hidden;
 }
 
 .player-card{
     padding: 1vw 2vw;
-    border-radius: 10px;
+    border-radius: 30px;
     width: auto;
     height: fit-content;
     font-size: 2vw;
+    text-shadow: 0px 0px 2px;
 }
 
 .picker{
@@ -70,7 +129,12 @@ h2{
     border: 5px solid red; */
     margin-left: 5%;
 }
-
+#game-wrapper{
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #board-wrapper{
     order: 2;
     display: grid;
@@ -80,65 +144,153 @@ h2{
     max-height: 600px; */
     grid-template-columns: repeat(3,33%);
     grid-template-rows: repeat(3,33%);
-    border-radius: 10px;
-    border: 6px solid white;
-    box-shadow: 0px 0px 20px white, inset 0px 0px 20px white;
-
+    border-radius: 30px;
 }
 
-@media (max-width: 1200px){
-    #main-wrapper{
-        justify-content:space-evenly;
-        flex-wrap: wrap;
-    }
-    #board-wrapper{
-    order:3;
-    width: 80vw;
-    height: 80vw;
-    }
-    #player-info-2{
-    order: 2;
-    }
-    .player-card{
-        width: 36vw;
-        max-width: none;
-        margin: 5% auto;
-        /* width: 20%; */
-    }
+.sign{
+    font-size: 10vw;
 }
 
-@media (max-width: 570px){
+@media (max-width: 700px){
+
     #main-wrapper{
         justify-content:center;
         flex-wrap: wrap;
     }
+    #game-wrapper{
+        display: flex;
+        align-items: center;
+        order:3;
+        width: 90vw;
+        margin: 10px;
+        text-align: center;
+    }
     #board-wrapper{
+        margin-top: 10px;
+        width: 75vw;
+        height: 75vw;
+    }
+
+    #player-info-1{
+        margin: 5px;
+        order: 1;
+    }
+
+    #player-info-2{
+        margin: 5px;
+        order: 2;
+    }
+    .player-card{
+        line-break: normal;
+        width: 36vw;
+        font-size: 2vh;
+        max-width: none;
+    } 
+
+    label{
+        display: none;
+    }
+
+    .player-card select{
+        font-size: 5vw;
+    }
+
+    .sign{
+        font-size: 20vw;
+    }
+
+    #results-display{
+        font-size: 1.5rem;
+    }
+} 
+
+@media (max-width: 1000px) and (min-width:600px){
+
+    #main-wrapper{
+        justify-content:center;
+        flex-wrap: wrap;
+    }
+    #game-wrapper{
+        display: flex;
+        align-items: center;
+        order:3;
+        width: 90vw;
+        margin: 10px;
+        text-align: center;
+    }
+    #board-wrapper{
+        margin-top: 10px;
+        width: 65vw;
+        height: 65vw;
+    }
+
+    #player-info-1{
+        margin: 5px;
+        order: 1;
+    }
+
+    #player-info-2{
+        margin: 5px;
+        order: 2;
+    }
+    .player-card{
+        line-break: normal;
+        width: 36vw;
+        font-size: 2vh;
+        max-width: none;
+    } 
+
+    label{
+        display: none;
+    }
+
+    .player-card select{
+        font-size: 3vw;
+    }
+
+    .sign{
+        font-size: 20vw;
+    }
+
+    #results-display{
+        font-size: 1.5rem;
+    }
+}
+
+/* @media (max-width: 570px){
+    #main-wrapper{
+        justify-content:center;
+        flex-wrap: wrap;
+    }
+    #bgame-wrapper{
     order:3;
     width: 80vw;
     height: 80vw;
     }
     #player-info-1{
-        margin: 30px 10px;
         order: 1;
     }
     #player-info-2{
-        margin: 0px 10px 30px 10px;
         order: 2;
     }
     .player-card{
-        margin: 10px;
-        width: 100vw;
+        margin: 0px;
         max-width: none;
-        margin: 5% auto;
-        /* width: 20%; */
     }
-}
+    label{
+        display: none;
+    }
+    .player-card select{
+        font-size: 5vw;
+    }
+} */
 
 .board-cell{
     color: rgba(37, 143, 248,0.0);
-    font-size: 15vw;
+    font-size: 650%;
     text-align: center;
     margin: 7%;
+    padding-bottom: 22%;
 
     display:flex;
     align-items: center;
@@ -151,29 +303,26 @@ h2{
 
 }
 
-.sign{
-    position : relative;
-    line-height: 0px;
-    top: -6%;
+#turn-display{
+    color:white;
+    text-align: center;
 }
+
+
 
 .board-cell:hover{
     background-color: rgba(88, 230, 230, 0.258);
 }
-.clicked{
-    color: rgb(37, 143, 248);
-    transition: color 0.5s ease-in-out;
-}
 
-.red{
+.red-sign{
     color: #ff2b2b;
-    border: 6px solid #ffe0e0;
-    box-shadow: 0px 0px 15px rgb(255, 58, 58), inset 0px 0px 15px rgb(255, 58, 58);
+    text-shadow: 0px 0px 5px rgb(255, 58, 58);
+    transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
 }
 
-.blue{
+.blue-sign{
     color: aqua;
-    border: 6px solid #c8ffff;
-    box-shadow: 0px 0px 15px aqua, inset 0px 0px 15px aqua;
+    text-shadow: 0px 0px 5px aqua;
+    transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
 }
 
