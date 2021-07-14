@@ -1,14 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe</title>
-    <link rel="shortcut icon" href="#" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="shortcut icon" href="#" />
 </head>
+
 <body>
-    Tic-Tac-Toe
+  <h1><span class='red-sign'>Tic-</span>Tac<span class='blue-sign'>-Toe</span></h1>
+
+  <div id="buttons">
+    <button id="start-button" class="button">Play</button>
+    <button id="reset-button" class="button">Reset</button>
+  </div>
+  <div id="main-wrapper">
+    <div class='player-card red' id="player-info-1">
+      <h2 class="player-title">Player 1</h2>
+      <div id='sign-picker-1' class="sign-picker picker">
+        <label for="signs-1">Choose your sign:</label>
+        <select id="signs-1" name="signs-1" data-player='1'>
+          <option value="x">x</option>
+          <option value="o">o</option>
+        </select>
+      </div>
+
+      <div id="ai-picker-1" class="picker">
+        <label for="ai-picker-player-1" >Player 1's AI:</label>
+        <select autocomplete="off" id="ai-picker-player-1" name="ai-picker-player-1" data-player='1'>
+          <option value="0" selected>Player</option>
+          <option value="1">AI</option>
+        </select>
+      </div>
+
+      <div id=ai-difficulty-picker-1 class="picker  difficulty-picker hidden">
+        <label for="ai-difficilty-picker-player-1" >AI's Difficulty</label>
+        <select id="ai-difficilty-picker-player-1" name="ai-difficilty-picker-player-1" data-player='1'>
+          <option value="1" selected>easy</option>
+          <option value="2">medium</option>
+          <option value="2">hard</option>
+        </select>
+      </div>
+
+    </div>
+    <div class='player-card blue' id="player-info-2">
+      <h2 class="player-title">Player 2</h2>
+      <div id='sign-picker-2' class="sign-picker picker">
+        <label for="signs-2">Choose your sign:</label>
+        <select id="signs-2" name="signs-2">
+          <option value="x">x</option>
+          <option value="o" selected>o</option>
+        </select>
+      </div>
+
+      <div id="ai-picker-2" class="picker">
+        <label for="ai-picker-player-2">Player 2's AI:</label>
+        <select autocomplete="off" id="ai-picker-player-2" name="ai-picker-player-2" data-player='2'>
+          <option value="0">Player</option>
+          <option value="1" selected>AI</option>
+        </select>
+      </div>
+
+      <div id="ai-difficulty-picker-2" class="picker difficulty-picker" >
+        <label for="ai-difficilty-picker-player-2" >AI's Difficulty</label>
+        <select id="ai-difficilty-picker-player-2" name="ai-difficilty-picker-player-2">
+          <option value="1" selected>easy</option>
+          <option value="2">medium</option>
+          <option value="2">hard</option>
+        </select>
+      </div>
+
+    </div>
+    <div id="game-wrapper">
+    <div id="results-display" class="white">
+      Press play to start
+    </div>
+    <div id='board-wrapper' class="white">
+      <div class='board-cell' data-index=0>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=1>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=2>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=3>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=4>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=5>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=6>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=7>
+        <div class='sign'></div>
+      </div>
+      <div class='board-cell' data-index=8>
+        <div class='sign'></div>
+      </div>
+    </div>
+    </div>
+  </div>
 </body>
 <script src="scripts/main.js"></script>
+
 </html>
