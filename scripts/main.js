@@ -385,7 +385,12 @@ const displayGameController = (()=>{
         let roundResult = _gameController.playRoundPlayer(index);
   
         //clicked cell was already taken
-        if (roundResult === false) return;
+        if (roundResult === false) {          
+            _boardCells.forEach((element)=>{
+            element.addEventListener('click',move);          
+            });
+            return;
+        }
         e.target.classList.add(playerColor);
         e.target.querySelector(".sign").innerText = roundResult[1];
         if (roundResult[2]!=='continue') {
