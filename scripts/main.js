@@ -142,16 +142,30 @@ const gameController = (() => {
         let bestScore = -Infinity;
         let pickedMove;
         let otherSign;
+        let randomIndex = Math.floor(Math.random()*availableMoves.length);
 
         if (_currentPlayerIndex === 1) otherSign = _playerTwo.getSign();
         else otherSign = _playerOne.getSign();
 
         if(difficulty==='1'){
-        let index = Math.floor(Math.random()*availableMoves.length);
-        pickedMove = availableMoves[index];
+        pickedMove = availableMoves[randomIndex];
         }else if(difficulty === '2'){
-            // alert('wow wow much difikulti')
+            let wrongMoveChance = Math.floor(Math.random()*100);
+            if(wrongMoveChance%20===0){
+                return availableMoves[randomIndex];
+            }
+
              availableMoves.forEach((move)=>{
+                _gameBoard.updateBoard(move,sign);
+                 let score = minimax(0,false,sign,otherSign);
+                _gameBoard.deleteFromBoard(move);
+                 if(score>bestScore) {
+                     bestScore=score;
+                     pickedMove = move;
+                    }
+             })
+        }else if(difficulty === '3'){
+            availableMoves.forEach((move)=>{
                 _gameBoard.updateBoard(move,sign);
                  let score = minimax(0,false,sign,otherSign);
                 _gameBoard.deleteFromBoard(move);
@@ -321,8 +335,8 @@ const displayGameController = (()=>{
 
     const restartGame = () =>{
         _boardCells.forEach((element)=>{
-            element.classList.remove('red');
-            element.classList.remove('blue');
+            element.classList.remove('red-sign');
+            element.classList.remove('blue-sign');
             element.querySelector('.sign').innerText='';
         })
         _resultsDisplay.innerText='Press play to start';
