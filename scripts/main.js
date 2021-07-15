@@ -151,7 +151,7 @@ const gameController = (() => {
         pickedMove = availableMoves[randomIndex];
         }else if(difficulty === '2'){
             let wrongMoveChance = Math.floor(Math.random()*100);
-            if(wrongMoveChance%20===0){
+            if(wrongMoveChance%5===0){
                 return availableMoves[randomIndex];
             }
 
